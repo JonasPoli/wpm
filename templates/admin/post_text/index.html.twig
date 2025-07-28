@@ -62,11 +62,15 @@
             <tr>
                 <td>{{ post_text.content }}</td>
                 <td>
-                    {{ post_text.campaingStructure.campaign.name }}<br>
-                    {{ post_text.campaingStructure.campaign.client.name }}
+                    {% if post_text.campaingStructure %}
+                        {{ post_text.campaingStructure.campaign.name }}<br>
+                        {{ post_text.campaingStructure.campaign.client.name }}
+                    {% else %}
+                        -
+                    {% endif %}
                 </td>
                 <td>
-                    {{ post_text.campaingStructure.title }}
+                    {{ post_text.campaingStructure ? post_text.campaingStructure.title : '-' }}
                 </td>
                 <td>
                     <a href="{{ path('app_admin_post_text_edit', {'id': post_text.id}) }}" class="btn btn-primary float-end" >Editar</a>
