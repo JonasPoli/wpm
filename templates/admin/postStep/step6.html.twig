@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Arte gerada</h1>
+<hr>
+    <a href="{{ path('app_admin_banner_item_image',{'postId':post.id}) }}" target="_blank">
+        <img style="width: 600px" src="{{ path('app_admin_banner_item_image',{'postId':post.id}) }}">
+    </a>
+    <hr>
+{% endblock %}

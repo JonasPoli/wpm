@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Escolha a Campanha</h1>
+    <form method="get" action="{{ path('post_step_new', {step: 3}) }}">
+        {% for campaign in campaigns %}
+            <input type="radio" id="campaign_{{ campaign.id }}" name="campaign_id" value="{{ campaign.id }}">
+            <label for="campaign_{{ campaign.id }}">
+                {% if campaign.baseArtFile is not empty %}
+                    <img src="{{ vich_uploader_asset(campaign,'baseArtFile') }}" width="75">
+                {% endif %}
+                {{ campaign.name }}
+            </label><br>
+            <hr>
+        {% endfor %}
+        <button class="btn btn-success text-white" type="submit">Continuar</button>
+    </form>
+{% endblock %}

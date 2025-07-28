@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CampaignStructure{% endblock %}
+
+{% block body %}
+    <h1>CampaignStructure</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ campaign_structure.id }}</td>
+            </tr>
+            <tr>
+                <th>Font</th>
+                <td>{{ campaign_structure.font }}</td>
+            </tr>
+            <tr>
+                <th>ColorR</th>
+                <td>{{ campaign_structure.colorR }}</td>
+            </tr>
+            <tr>
+                <th>ColorG</th>
+                <td>{{ campaign_structure.colorG }}</td>
+            </tr>
+            <tr>
+                <th>ColorB</th>
+                <td>{{ campaign_structure.colorB }}</td>
+            </tr>
+            <tr>
+                <th>ShadowXShift</th>
+                <td>{{ campaign_structure.shadowXShift }}</td>
+            </tr>
+            <tr>
+                <th>ShadowYShif</th>
+                <td>{{ campaign_structure.shadowYShif }}</td>
+            </tr>
+            <tr>
+                <th>FontSize</th>
+                <td>{{ campaign_structure.fontSize }}</td>
+            </tr>
+            <tr>
+                <th>LineHeight</th>
+                <td>{{ campaign_structure.lineHeight }}</td>
+            </tr>
+            <tr>
+                <th>BoxX</th>
+                <td>{{ campaign_structure.boxX }}</td>
+            </tr>
+            <tr>
+                <th>BoxY</th>
+                <td>{{ campaign_structure.boxY }}</td>
+            </tr>
+            <tr>
+                <th>BoxWidth</th>
+                <td>{{ campaign_structure.boxWidth }}</td>
+            </tr>
+            <tr>
+                <th>BoxHeight</th>
+                <td>{{ campaign_structure.boxHeight }}</td>
+            </tr>
+            <tr>
+                <th>AlignX</th>
+                <td>{{ campaign_structure.alignX }}</td>
+            </tr>
+            <tr>
+                <th>AlignY</th>
+                <td>{{ campaign_structure.alignY }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ campaign_structure.title }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_campaign_structure_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_campaign_structure_edit', {'id': campaign_structure.id}) }}">edit</a>
+
+    {{ include('admin/campaign_structure/_delete_form.html.twig') }}
+{% endblock %}

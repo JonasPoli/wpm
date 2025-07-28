@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Post{% endblock %}
+
+{% block body %}
+    {# Exibir mensagens flash de sucesso #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {# Exibir mensagens flash de erro #}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <h1>Prompt</h1>
+Criandoum prompt Para o GPT    <br>
+    <br>
+
+<form action="{{ path('app_admin_campaign_generate_prompt_step2',{'campaignId':campaign.id}) }}">
+    <div class="row">
+
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header"><strong>Importado</strong></div>
+                <div class="card-body">
+                    <div class="example">
+
+                        <div class="tab-content rounded-bottom">
+                            <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1000">
+
+                                <div class="mb-3">
+
+                                   <table class="table">
+                                       {% for line in csvRows %}
+                                           <tr id="{{ line.0 }}" lineId="{{ line.0 }}">
+                                           {% for col in line %}
+                                               <td>{{ col }}</td>
+                                           {% endfor %}
+                                               {% if loop.index == 1 %}
+                                               <td></td>
+                                               {% else %}
+                                               <td>
+                                                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                                       <button class="btn btn-success float-end text-white">Aprovar</button>
+                                                       <button class="btn btn-danger float-end text-white">Remover</button>
+                                                   </div>
+                                               </td>
+                                               {% endif %}
+                                           </tr>
+                                       {% endfor %}
+                                   </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    <a href="{{ path('app_admin_campaign_step5',{'campaignId':campaign.id}) }}" class="btn btn-info text-white float-start mt-3">Continuar</a>
+
+    </div>
+
+</form>
+<script>
+
+    function processData(data) {
+        // Objeto para armazenar os valores processados
+        let result = {};
+
+        // Mapear os índices específicos para textos
+        let keys = [
+            "postid",
+            "postday",
+            "postmonth",
+            "posttitle",
+            "posttexttopublish"
+        ];
+
+        // Iterar sobre os primeiros 5 itens e adicionar ao objeto
+        for (let i = 0; i < Math.min(data.length, 5); i++) {
+            result[keys[i]] = data[i];
+        }
+
+        // Criar a lista 'posttext' para itens com id 5 ou maior, excluindo o último item
+        let posttext = [];
+        for (let i = 5; i < data.length - 1; i++) {
+            posttext.push(data[i]);
+        }
+
+        // Adicionar a lista 'posttext' ao objeto
+        result["posttext"] = posttext;
+
+        return result;
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add event listeners to all "Aprovar" and "Remover" buttons
+        document.querySelectorAll('.btn-success').forEach(button => {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const lineId = row.getAttribute('lineid');
+                const rowData = [...row.children].map(td => td.textContent.trim());
+
+                // Remove the row from the table
+                row.remove();
+
+                // Send the data to the API
+                fetch('{{ path('app_admin_campaign_generate_prompt_step5',{'campaignId':campaign.id}) }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        lineId: lineId,
+                        data: processData(rowData)
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+
+        document.querySelectorAll('.btn-danger').forEach(button => {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                // Remove the row from the table
+                row.remove();
+            });
+        });
+    });
+
+</script>
+
+{% endblock %}

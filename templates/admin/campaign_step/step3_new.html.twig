@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo CampaignStructure{% endblock %}
+
+{% block body %}
+    <h1>Criar novo Estrutura</h1>
+    <div class="row">
+        <div class="mb-3 col-6">
+            {{ include('admin/campaign_step/step3_form.html.twig') }}
+
+            <a href="{{ path('app_admin_campaign_step3',{'campaignId':campaign.id}) }}" class="btn btn-secondary float-start ms-3 mt-3 text-white">Voltar</a>
+
+        </div>
+        <div class="mb-3 col-6">
+            <h5>Ajuda</h5>
+            <img style="width: 300px" src="{{ asset('assets/images/help-margin.png') }}">
+        </div>
+    </div>
+
+
+
+{% endblock %}

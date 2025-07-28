@@ -1,0 +1,98 @@
+{{ form_start(form) }}
+<style>
+    .boxX{
+        color: #044cdc;
+    }
+    .boxY{
+        color: #08863a;
+    }
+
+    .boxWidth{
+        color: #ae4405;
+    }
+
+    .boxHeight{
+        color: #4f0886;
+    }
+
+
+</style>
+<div class="row">
+    <h4>Texto</h4>
+    <div class="text-danger">
+        {{ form_errors(form) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.title.vars.id }}" class="form-label">Título</label>
+        {{ form_widget(form.title, {'attr':{'class':'form-control'}}) }}
+    </div>
+
+    <div class="mb-3 col-6">
+        <label for="{{ form.font.vars.id }}" class="form-label">Fonte</label>
+        {{ form_widget(form.font, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-6">
+        <label for="{{ form.fontSize.vars.id }}" class="form-label">Tamanho Da Fonte</label>
+        {{ form_widget(form.fontSize, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.lineHeight.vars.id }}" class="form-label">Altura Da Linha</label>
+        {{ form_widget(form.lineHeight, {'attr':{'class':'form-control'}}) }}
+    </div>
+
+    <div class="mb-3 col-4">
+        <label for="{{ form.colorR.vars.id }}" class="form-label">Vermelho</label>
+        {{ form_widget(form.colorR, {'attr':{'class':'form-control','max':255,'min':0}}) }}
+    </div>
+    <div class="mb-3 col-4">
+        <label for="{{ form.colorG.vars.id }}" class="form-label">Verde</label>
+        {{ form_widget(form.colorG, {'attr':{'class':'form-control','max':255,'min':0}}) }}
+    </div>
+    <div class="mb-3 col-4">
+        <label for="{{ form.colorB.vars.id }}" class="form-label">Azul</label>
+        {{ form_widget(form.colorB, {'attr':{'class':'form-control','max':255,'min':0}}) }}
+    </div>
+
+    <hr>
+    <h4>Caixa de Texto</h4>
+    <div class="mb-3 col-6">
+        <label for="{{ form.shadowXShift.vars.id }}" class="form-label">Deslocamento De Sobra X </label>
+        {{ form_widget(form.shadowXShift, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-6">
+        <label for="{{ form.shadowYShif.vars.id }}" class="form-label ">Deslocamento De Sombra Y</label>
+        {{ form_widget(form.shadowYShif, {'attr':{'class':'form-control'}}) }}
+    </div>
+
+
+    <div class="mb-3 col-6">
+        <label for="{{ form.boxX.vars.id }}" class="form-label boxX">Início Caixa X</label>
+        {{ form_widget(form.boxX, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-6">
+        <label for="{{ form.boxY.vars.id }}" class="form-label boxY">Início Caixa Y</label>
+        {{ form_widget(form.boxY, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-6">
+        <label for="{{ form.boxWidth.vars.id }}" class="form-label boxWidth">Largura Da Caixa</label>
+        {{ form_widget(form.boxWidth, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-6">
+        <label for="{{ form.boxHeight.vars.id }}" class="form-label boxHeight">Altura Da Caixa</label>
+        {{ form_widget(form.boxHeight, {'attr':{'class':'form-control','type':'range'}}) }}
+    </div>
+    <div class="mb-3 col-6">
+        <label for="{{ form.alignX.vars.id }}" class="form-label">Alinhamento Horizontal</label>
+        {{ form_widget(form.alignX, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-6">
+        <label for="{{ form.alignY.vars.id }}" class="form-label">Alinhamento Vertical</label>
+        {{ form_widget(form.alignY, {'attr':{'class':'form-control'}}) }}
+    </div>
+
+
+</div>
+<button class="btn btn-success text-white float-start mt-3">Atualizar</button>
+
+
+{{ form_end(form) }}

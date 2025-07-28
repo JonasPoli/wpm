@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Texto{% endblock %}
+
+{% block body %}
+    <h1>Editar Texto</h1>
+
+    {{ include('admin/post_text/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="javascript:history.back()" class="btn btn-secondary float-start ms-3 mt-3 text-white">Voltar</a>
+
+
+    {{ include('admin/post_text/_delete_form.html.twig') }}
+{% endblock %}

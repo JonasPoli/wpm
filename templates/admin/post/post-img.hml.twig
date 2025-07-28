@@ -1,0 +1,79 @@
+<style>
+    {% set numberRand = random(50, 100) %}
+    {% for text in post.postTexts %}
+    @font-face {
+        font-family: MinhaFontePersonalizada{{ text.campaingStructure.id }};
+        src: url(/{{ text.campaingStructure.font }});
+    }
+    {% endfor %}
+    body {
+        font-family: 'MinhaFontePersonalizada', sans-serif;
+    }
+
+
+    body {
+        margin: 0;
+        font-family: 'Oswald', sans-serif;
+    }
+    .container{{ numberRand }} {
+        border: solid 1px gray;
+        position: relative;
+        width: 1080px;
+        height: 1080px;
+        background-image: url('/images/imageImage/{{ post.image }}');
+        zoom:{% if zoomSize is defined %}{{ zoomSize }}{% else %}50{% endif %}%;
+    %}
+    .overlay-image{{ numberRand }} {
+        position: absolute;
+        width: 1080px;
+        height: 1080px;
+        background-image: url('/images/baseArtImage/{{ post.campaign.baseArt }}');
+        top: 0;
+        left: 0;
+    }
+    {% for text in post.postTexts %}
+    .text-box{{ text.campaingStructure.id }}-{{ numberRand }} {
+        position: absolute;
+        width: {{ text.campaingStructure.boxWidth }}px;
+        height: {{ text.campaingStructure.boxHeight }}px;
+        top: {{ text.campaingStructure.boxY }}px;
+        left: {{ text.campaingStructure.boxX }}px;
+        color: rgb({{ text.campaingStructure.colorR }}, {{ text.campaingStructure.colorG }}, {{ text.campaingStructure.colorB }});
+        font-family: 'MinhaFontePersonalizada{{ text.campaingStructure.id }}', sans-serif;
+        font-size: {{ text.campaingStructure.fontSize }}px;
+        text-align: {{ text.campaingStructure.alignX }};
+        line-height: {{ text.campaingStructure.lineHeight }};
+        text-shadow: {{ text.campaingStructure.shadowXShift }}px {{ text.campaingStructure.shadowYShif }}px 1px rgba(0, 0, 0, 0.5);
+    }
+    {% endfor %}
+
+</style>
+
+<div class="container{{ numberRand }}">
+    <div class="overlay-image{{ numberRand }}"></div>
+    {% for text in post.postTexts %}
+    <div class="text-box{{ text.campaingStructure.id }}-{{ numberRand }}">{{ text.content }}</div>
+    {% endfor %}
+
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function applyZoom{{ numberRand }}() {
+            const postImage{{ numberRand }} = document.querySelector('.post-image{{ numberRand }}');
+            const container{{ numberRand }} = document.querySelector('.container{{ numberRand }}');
+
+            if (postImage{{ numberRand }} && container{{ numberRand }}) {
+                const postImageWidth{{ numberRand }} = postImage{{ numberRand }}.clientWidth;
+                const zoomRatio{{ numberRand }} = postImageWidth{{ numberRand }} / 1080;
+
+                container{{ numberRand }}.style.zoom = zoomRatio{{ numberRand }};
+            }
+        }
+
+        // Initial application
+        applyZoom{{ numberRand }}();
+
+        // Apply zoom on window resize
+        window.addEventListener('resize', applyZoom{{ numberRand }});
+    });
+</script>

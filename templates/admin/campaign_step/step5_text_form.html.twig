@@ -1,0 +1,60 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Post{% endblock %}
+
+{% block body %}
+    <h1>Editar Texto</h1>
+<p>
+    {{ post_text.campaingStructure.title }}
+</p>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="mb-3 col-12">
+            <label for="{{ form.content.vars.id }}" class="form-label">Conteúdo</label>
+            {{ form_widget(form.content, {'attr':{'class':'form-control'}}) }}
+        </div>
+
+    </div>
+    <button class="btn btn-info text-white float-start mt-3">Salvar</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_admin_campaign_step5',{'campaignId':campaign.id}) }}" class="btn btn-secondary float-start ms-3 mt-3 text-white">Voltar</a>
+
+
+
+
+
+    <table class="table" id="tabela">
+
+        <thead>
+        <tr>
+            <th><h5>Datas comemorativas próximas à {{ post_text.post.scheduleDate|date('d/m/Y') }}</h5></th>
+        </tr>
+        <tr>
+            <th class="text-center">Data</th>
+            <th class="text-center">Título</th>
+            <th class="text-center">Descrição</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for date in commemorativeDates %}
+            <tr>
+                <td class="text-center">
+                    {{ date.day| format_number({min_integer_digit:'2'})}}/{{ date.month | format_number({min_integer_digit:'2'})}}{% if  date.year is not null %}/{{ date.year }}{% endif %}
+                </td>
+                <td class="text-left">{{ date.title }}</td>
+                <td class="text-left">{{ date.description }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Sem registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+
+
+
+{% endblock %}

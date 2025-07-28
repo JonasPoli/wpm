@@ -1,0 +1,28 @@
+{# templates/campaign/upload_csv.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Upload CSV{% endblock %}
+
+{% block body %}
+    <h1>Upload CSV {{ campaign.name }} - {{ campaign.client.name }}</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <form action="{{ path('app_admin_campaign_generate_prompt_step4', {'campaignId': campaign.id}) }}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="csv_file">CSV File</label>
+            <input type="file" name="csv_file" id="csv_file" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Upload</button>
+    </form>
+{% endblock %}

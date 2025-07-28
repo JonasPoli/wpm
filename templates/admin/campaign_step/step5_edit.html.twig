@@ -1,0 +1,200 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Post{% endblock %}
+
+{% block body %}
+    <h1>Editar Post</h1>
+    {% if post.approvedBy is not empty %}
+        <span class="badge text-bg-success text-white">Aprovado por {{ post.approvedBy.name }}</span>
+    {% else %}
+        <span class="badge text-bg-warning text-white">Aguardando aprovação</span>
+    {% endif %}
+
+<div class="row">
+    <div class="mb-3 col-6">
+    {{ include('admin/campaign_step/step5_form.html.twig') }}
+
+    <a href="{{ path('app_admin_campaign_step5',{'campaignId':campaign.id}) }}" class="btn btn-secondary float-start ms-3 mt-3 text-white">Voltar</a>
+
+
+        {% if is_granted('ROLE_ADMIN')  %}
+            {% if post.approvedBy is not empty %}
+                <a href="{{ path('app_admin_campaign_step5_post_reprove',{'campaignId':campaign.id,'id':post.id}) }}" class="btn btn-danger float-start ms-3 mt-3 text-white">Reprovar</a>
+            {% else %}
+                <a href="{{ path('app_admin_campaign_step5_post_aprove' ,{'campaignId':campaign.id,'id':post.id}) }}" class="btn btn-success float-start ms-3 mt-3 text-white">Aprovar</a>
+            {% endif %}
+        {% endif %}
+
+    {{ include('admin/campaign_step/step5_delete_form.html.twig') }}
+
+
+
+    </div>
+    <div class="mb-3 col-6">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f2f5;
+
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+            .facebook-post {
+                background-color: #fff;
+                border: 1px solid #dddfe2;
+                border-radius: 8px;
+                width: 500px;
+                padding: 16px;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            }
+
+            .post-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 12px;
+            }
+
+            .profile-pic {
+                width: 40px;
+                height: 40px;
+                background-color: #ffffff;
+                border-radius: 50%;
+                margin-right: 8px;
+                background-image: url("/images/logoImage/{{ post.campaign.client.logo }}");
+                background-size: cover;
+            }
+
+            .post-info {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .profile-name {
+                font-weight: bold;
+                font-size: 14px;
+            }
+
+            .post-date {
+                font-size: 12px;
+                color: #606770;
+            }
+
+            .globe-icon::before {
+                content: '🌐'; /* Example for the globe icon */
+            }
+
+            .post-content p {
+                margin: 0;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+
+            .post-content a {
+                color: #385898;
+                text-decoration: none;
+            }
+
+            .hashtags {
+                color: #606770;
+            }
+
+            .post-image {
+                margin: 12px 0;
+            }
+
+            .post-image img {
+                width: 100%;
+                border-radius: 8px;
+            }
+
+            .post-footer {
+                display: flex;
+                justify-content: space-around;
+                color: #606770;
+                font-size: 14px;
+                border-top: 1px solid #dddfe2;
+                padding-top: 8px;
+            }
+
+            .post-action {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+            }
+
+            .post-action span {
+                margin-left: 4px;
+            }
+
+            .action-icon {
+                width: 18px;
+                height: 18px;
+                fill: #606770;
+            }
+
+
+        </style>
+        <div class="facebook-post">
+            <div class="post-header">
+                <div class="profile-pic"></div>
+                <div class="post-info">
+                    <div class="profile-name">{{ post.campaign.client.name }}</div>
+                    <div class="post-date">Publicado por {% if post.createdBy is not null %}{{ post.createdBy.name}}{% else %}Wab Agência Digital{% endif %} · {{ post.scheduleDate|date('d \\d\\e F \\d\\e Y') }} · <span class="globe-icon"></span></div>
+                </div>
+            </div>
+            <div class="post-content">
+                <p>{{ post.textToPublish|raw }}</p>
+            </div>
+            <div class="post-image">
+                <img src="/{{ post.dinamicImage }}" alt="Post Image">
+{#                {{ include('admin/post/post-img.hml.twig', {'post': post}) }}#}
+            </div>
+            <div class="post-footer">
+            <img class="w-100" src="{{ asset('assets/images/facebook_footer.png') }}" >
+            </div>
+        </div>
+
+
+
+        <div class="mt-5">
+            <h5>Histórico com o Facebook</h5>
+            {{ post.facebookId ? post.facebookId : '' }}
+        </div>
+
+        <table class="table w-100" id="tabela">
+
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Quando</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for history in post.postHistories %}
+
+                    <tr>
+                        <td>
+                            {{ history.eventDescription }}
+                        </td>
+                        <td>
+                            {{ history.occurredIn|date('Y-m-d H:i:s') }}
+                        </td>
+                    </tr>
+
+            {% else %}
+                <tr>
+                    <td>Sem registros</td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

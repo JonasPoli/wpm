@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo Post{% endblock %}
+
+{% block body %}
+    <h1>Criar novo Post</h1>
+
+    {{ include('admin/post/_form.html.twig') }}
+
+    <a href="javascript:history.back()" class="btn btn-secondary float-start ms-3 mt-3 text-white">Voltar</a>
+
+{% endblock %}

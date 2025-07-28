@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <h1>Passo 4 - Datas</h1>
+    {% if campaign is defined %}
+        {% set client = campaign.client %}
+        <div class="row">
+            <div class="col-1 text-start">
+                {% if client.logo is not empty %}
+                    <img src="{{ vich_uploader_asset(client,'logoFile') }}" width="75">
+                {% endif %}
+            </div>
+            <div class="col-5 text-start">
+                <h3>Cliente {{ campaign.client.name }}</h3>
+            </div>
+            <div class="col-1 text-start">
+                {% if campaign.baseArtFile is not empty %}
+                    <img src="{{ vich_uploader_asset(campaign,'baseArtFile') }}" width="75">
+                {% endif %}
+            </div>
+            <div class="col-5 text-start">
+                <h3>{{ campaign.client.name }}</h3>
+                Campanhas do cliente {{ campaign.name }}
+            </div>
+            <hr class="mt-3">
+        </div>
+        <div class="row">
+            <div class="col-12 text-start">
+                <strong>Início: </strong> {{ campaign.stardDate|date('d/m/y') }}<br>
+                <strong>Fim: </strong> {{ campaign.endDate|date('d/m/y') }}
+            </div>
+            <hr class="mt-3">
+        </div>
+
+    {% endif %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="mb-3 col-4">
+            <label for="{{ form.periodicidade.vars.id }}" class="form-label">Periodicidade</label>
+            {{ form_widget(form.periodicidade, {'attr':{'class':'form-control'}}) }}
+        </div>
+    </div>
+    <button class="btn btn-success text-white float-start mt-3">Confirmar</button>
+    {{ form_end(form) }}
+
+
+
+{% endblock %}

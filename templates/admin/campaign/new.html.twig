@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo Campaign{% endblock %}
+
+{% block body %}
+    <h1>Criar novo Campanha</h1>
+
+    {{ include('admin/campaign/_form.html.twig') }}
+
+    <a href="javascript:history.back()" class="btn btn-secondary float-start ms-3 mt-3 text-white">Voltar</a>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+    <h1>Post</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ post.id }}</td>
+            </tr>
+            <tr>
+                <th>Títlo</th>
+                <td>{{ title }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ post.textToPublish }}</td>
+            </tr>
+            <tr>
+                <th>ScheduleDate</th>
+                <td>{{ post.scheduleDate ? post.scheduleDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+<div class="row">
+    <form action="{{ path('app_admin_post_image_choice',{'id':post.id}) }}">
+        <div class="row">
+
+            <div class="text-danger">
+
+            </div>
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header"><strong>Pesquisa de imagem</strong></div>
+                    <div class="card-body">
+                        <div class="example">
+
+                            <div class="tab-content rounded-bottom">
+                                <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1000">
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="textAreaToGPT">O que procurar</label><br>
+                                        <small>Escreva o que você quer procurar em inglês</small>
+                                        <input type="text" class="form-control" name="search" id="search">
+                                    </div>
+                                </div>
+                                <a href="https://unsplash.com/" target="_blank">Usamos o Unsplash</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

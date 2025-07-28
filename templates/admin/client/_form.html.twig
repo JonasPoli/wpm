@@ -1,0 +1,43 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="mb-3 col-12">
+        <label for="{{ form.name.vars.id }}" class="form-label">Nome</label>
+        {{ form_widget(form.name, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.email.vars.id }}" class="form-label">E-mail</label>
+        {{ form_widget(form.email, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.phone.vars.id }}" class="form-label">Telefone</label>
+        {{ form_widget(form.phone, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.address.vars.id }}" class="form-label">Edereço</label>
+        {{ form_widget(form.address, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.companyType.vars.id }}" class="form-label">Tipo de empresa</label>
+        {{ form_widget(form.companyType, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.activityType.vars.id }}" class="form-label">Ramo de atividade</label>
+        {{ form_widget(form.activityType, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.facebookPageId.vars.id }}" class="form-label">Facebook Page Id</label>
+        {{ form_widget(form.facebookPageId, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.logoFile.vars.id }}" class="form-label">Logo</label>
+        {{ form_widget(form.logoFile, {'attr':{'class':'form-control'}}) }}
+
+        
+        {% if client.logoFile is not empty %}
+            <img class="mt-3" src="{{ vich_uploader_asset(client,'logoFile') }}" width="150" />
+        {% endif %}
+
+    </div>
+</div>
+<button class="btn btn-info text-white float-start mt-3">Salvar</button>
+{{ form_end(form) }}

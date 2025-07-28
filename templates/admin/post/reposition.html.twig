@@ -1,0 +1,186 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+    <h1>Reposicionar</h1>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            position: relative;
+            width: fit-content;
+            margin: 20px;
+        }
+        #fixedImage {
+            position: relative;
+            z-index: 1;
+            pointer-events: none;
+            margin-left: -12px;
+        }
+        #draggableImage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            cursor: move;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .controls input {
+            margin-right: 10px;
+        }
+    </style>
+    <div class="row">
+        <div class="mb-3 col-12">
+            <div class="container">
+                <img id="fixedImage" src="{{ vich_uploader_asset(post.campaign,'baseArtFile') }}" alt="Fixed Image">
+                <img id="draggableImage" src="{{ vich_uploader_asset(post,'imageFile') }}" alt="Draggable Image">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-3 col-6">
+            <label for="marginX" class="form-label">Margem X</label>
+            <input type="number" id="marginX" name="marginX" value="0" class="form-control">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="marginY" class="form-label">Margem Y</label>
+            <input type="number" id="marginY" name="marginY" value="0" class="form-control">
+        </div>
+    </div>
+    <div class="mb-3 col-12">
+        <div class="controls">
+            <button id="confirmButton" class="btn btn-success">Salvar</button>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const fixedImage = document.getElementById('fixedImage');
+            const draggableImage = document.getElementById('draggableImage');
+            const marginXInput = document.getElementById('marginX');
+            const marginYInput = document.getElementById('marginY');
+
+            // Redimensionar imagem de baixo
+            const resizeDraggableImage = () => {
+                const fixedWidth = fixedImage.naturalWidth;
+                const fixedHeight = fixedImage.naturalHeight;
+                const draggableWidth = draggableImage.naturalWidth;
+                const draggableHeight = draggableImage.naturalHeight;
+
+
+                // Calcula as proporções das imagens
+                const fixedAspectRatio = fixedWidth / fixedHeight;
+                const draggableAspectRatio = draggableWidth / draggableHeight;
+
+                let newWidth, newHeight;
+
+                if (draggableAspectRatio > fixedAspectRatio) {
+                    // A imagem draggable é mais larga em proporção
+                    newWidth = fixedWidth;
+                    newHeight = fixedWidth / draggableAspectRatio;
+                } else {
+                    // A imagem draggable é mais alta em proporção
+                    newHeight = fixedHeight;
+                    newWidth = fixedHeight * draggableAspectRatio;
+                }
+
+                // Aplica os novos tamanhos, garantindo que as dimensões não sejam menores do que as da imagem fixa
+                if (newWidth < fixedWidth) {
+                    newWidth = fixedWidth;
+                    newHeight = fixedWidth / draggableAspectRatio;
+                }
+                if (newHeight < fixedHeight) {
+                    newHeight = fixedHeight;
+                    newWidth = fixedHeight * draggableAspectRatio;
+                }
+
+                // Define as novas dimensões para a imagem draggable
+                draggableImage.style.width = `${newWidth}px`;
+                draggableImage.style.height = `${newHeight}px`;
+
+            };
+
+            resizeDraggableImage();
+
+            const updatePosition = () => {
+                draggableImage.style.left = `${marginXInput.value}px`;
+                draggableImage.style.top = `${marginYInput.value}px`;
+            };
+
+            marginXInput.addEventListener('input', updatePosition);
+            marginYInput.addEventListener('input', updatePosition);
+
+            // Função para arrastar a imagem
+            const dragElement = (elmnt) => {
+                let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                elmnt.onmousedown = dragMouseDown;
+
+                function dragMouseDown(e) {
+                    e = e || window.event;
+                    e.preventDefault();
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    document.onmouseup = closeDragElement;
+                    document.onmousemove = elementDrag;
+                }
+
+                function elementDrag(e) {
+                    e = e || window.event;
+                    e.preventDefault();
+                    pos1 = pos3 - e.clientX;
+                    pos2 = pos4 - e.clientY;
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                    marginXInput.value = parseInt(elmnt.style.left);
+                    marginYInput.value = parseInt(elmnt.style.top);
+                }
+
+                function closeDragElement() {
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                }
+            };
+
+            dragElement(draggableImage);
+
+            // Enviar dados via POST
+            document.getElementById('confirmButton').onclick = function() {
+                const marginX = marginXInput.value;
+                const marginY = marginYInput.value;
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '{{ path('app_admin_post_image_reposition_new',{'id':post.id}) }}';
+
+                const postIdInput = document.createElement('input');
+                postIdInput.type = 'hidden';
+                postIdInput.name = 'postId';
+
+
+                form.appendChild(postIdInput);
+
+                const marginXInputField = document.createElement('input');
+                marginXInputField.type = 'hidden';
+                marginXInputField.name = 'marginX';
+                marginXInputField.value = marginX;
+                form.appendChild(marginXInputField);
+
+                const marginYInputField = document.createElement('input');
+                marginYInputField.type = 'hidden';
+                marginYInputField.name = 'marginY';
+                marginYInputField.value = marginY;
+                form.appendChild(marginYInputField);
+
+                document.body.appendChild(form);
+                form.submit();
+            };
+        };
+    </script>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+<style>
+    div#user_roles label {
+        margin-right: 10px;
+        margin-left: 1px;
+    }
+</style>
+{{ form_start(form) }}
+<div class="row">
+<div class="text-danger">
+        {{ form_errors(form) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.name.vars.id }}" class="form-label">Nome</label>
+        {{ form_widget(form.name, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.email.vars.id }}" class="form-label">E-mail</label>
+        {{ form_widget(form.email, {'attr':{'class':'form-control'},'type':'email'}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.roles.vars.id }}" class="form-label">Roles</label>
+        {{ form_widget(form.roles, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.password.vars.id }}" class="form-label">Senha</label><br>
+        <small>Se deixar em branco, a senha não será alterada</small>
+        {{ form_widget(form.password, {'attr':{'class':'form-control'}}) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.facebookAccessToken.vars.id }}" class="form-label">Token do Facebook</label><br>
+        <small><a href="https://developers.facebook.com/tools/explorer/" target="_blank">Link para atualizar seu token</a></small>
+        {{ form_widget(form.facebookAccessToken, {'attr':{'class':'form-control'}}) }}
+    </div>
+
+</div>
+<button class="btn btn-info text-white float-start mt-3">Salvar</button>
+{{ form_end(form) }}

@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client Listatem{% endblock %}
+
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tabela').DataTable({
+                "lengthMenu": [[ 10, 25, 50, 100, -1], [ 10, 25, 50, 100, "Todos"]],
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ registros por página",
+                    "zeroRecords": "Nada encontrado",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro disponível",
+                    "infoFiltered": "(filtrado de _MAX_ registros no total)",
+                    "search": " Pesquisar",
+                    "paginate": {
+                        "first": "Primeira",
+                        "last": "Última",
+                        "next": "Próxima",
+                        "previous": "Anterior"
+                    },
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>  
+    
+
+    <div class="row text-end">
+        <div class="col">
+            <a class="mb-3 btn btn-success text-white" href="{{ path('app_admin_client_new') }}">Novo</a>
+        </div>
+    </div>           
+            
+
+    
+
+    
+    <div class="card mb-5">
+        <h5 class="card-header">Clientes</h5>
+        <div class="card-body">
+            <table class="table" id="tabela">        
+        
+        <thead>
+            <tr>
+                <th class="text-center">Logo</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for client in clients %}
+            <tr>
+                <td class="text-center">
+                    {% if client.logoFile is not empty %}
+                        <img src="{{ vich_uploader_asset(client,'logoFile') }}" width="75">
+                    {% endif %}
+                </td>
+                <td>{{ client.name }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.phone }}</td>
+
+                <td>
+                    <a href="{{ path('app_admin_client_campaign_index', {'clientId': client.id}) }}" class="btn btn-success float-end ms-2 text-white" >Campanhas</a>
+                    <a href="{{ path('app_admin_client_edit', {'id': client.id}) }}" class="btn btn-primary float-end" >Editar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Sem registros</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+   
+            </table>
+        </div>
+    </div>  
+        
+
+{% endblock %}

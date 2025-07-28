@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="mb-3 col-12">
+        <label for="{{ form.content.vars.id }}" class="form-label">Conteúdo</label>
+        {{ form_widget(form.content, {'attr':{'class':'form-control'}}) }}
+    </div>
+
+</div>
+<button class="btn btn-info text-white float-start mt-3">Salvar</button>
+{{ form_end(form) }}

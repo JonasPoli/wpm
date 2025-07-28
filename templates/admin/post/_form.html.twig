@@ -1,0 +1,47 @@
+{{ form_start(form) }}
+
+<div class="row">
+
+    <div class="text-danger">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="mb-3 col-12">
+        <label for="{{ form.scheduleDate.vars.id }}" class="form-label">Programado Para</label>
+        {{ form_widget(form.scheduleDate, {'attr':{'class':'form-control'}}) }}
+        {{ form_errors(form.scheduleDate) }}
+    </div>
+
+    <div class="mb-3 col-12">
+        <label for="{{ form.campaign.vars.id }}" class="form-label">Campanha</label>
+        {{ form_widget(form.campaign, {'attr':{'class':'form-control'}}) }}
+        {{ form_errors(form.campaign) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.midia.vars.id }}" class="form-label">Mídia</label>
+        {{ form_widget(form.midia, {'attr':{'class':'form-control'}}) }}
+        {{ form_errors(form.midia) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.createdBy.vars.id }}" class="form-label">Criado Por</label>
+        {{ form_widget(form.createdBy, {'attr':{'class':'form-control'}}) }}
+        {{ form_errors(form.createdBy) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.approvedBy.vars.id }}" class="form-label">Aprovado Por</label>
+        {{ form_widget(form.approvedBy, {'attr':{'class':'form-control'}}) }}
+        {{ form_errors(form.approvedBy) }}
+    </div>
+    <div class="mb-3 col-12">
+        <label for="{{ form.imageFile.vars.id }}" class="form-label">Imagem</label>
+        {{ form_widget(form.imageFile, {'attr':{'class':'form-control'}}) }}
+        {{ form_errors(form.imageFile) }}
+
+        {% if post.imageFile is not empty %}
+            <img class="mt-3" src="{{ vich_uploader_asset(post,'imageFile') }}" width="150" />
+        {% endif %}
+    </div>
+
+</div>
+<button class="btn btn-info text-white float-start mt-3">Salvar</button>
+{{ form_end(form) }}

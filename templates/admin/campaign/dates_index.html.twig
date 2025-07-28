@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Post{% endblock %}
+
+{% block body %}
+
+    <h1>Ecolha dos textos</h1>
+Para criar os textos referentes a campanha <strong>{{ campaign.name }}</strong> do cliente <strong>{{ campaign.client.name }}</strong>,
+Você precisa informar quais das datas comemorativas abaixo devem fazer parte da campnha que se inicia em <strong>{{ campaign.stardDate|date('d/m/Y') }}</strong> e vai até <strong>{{ campaign.endDate|date('d/m/Y') }}</strong>.
+    <br>
+    <br>
+    <style>
+        .highlight {
+            background-color: green !important;
+            color: white;
+        }
+        .p-2.zebrado-escuro.highlight {
+            background-color: #026702 !important;
+        }
+    </style>
+<form action="{{ path('app_admin_campaign_generate_prompt_step2',{'campaignId':campaign.id}) }}">
+    <div class="row">
+
+        <div class="text-danger">
+
+        </div>
+        <div class="mb-3 col-12">
+                <div id="form_commemorativeDates" class="form-control">
+                {% for date in commemorativeDates %}
+                    <div class="p-2 {% if loop.index % 2 == 0 %} zebrado-escuro {% endif %}" {% if loop.index % 2 == 0 %} style="background-color: #d6d6d6"   {% endif %}>
+                <input type="checkbox" id="form_commemorativeDates_{{ date.id }}"
+                    name="form[commemorativeDates][]"
+                    value="{{ date.id }}">
+                <label
+                    for="form_commemorativeDates_{{ date.id }}"> <strong> {{ date.day| format_number({min_integer_digit:'2'})}}/{{ date.month | format_number({min_integer_digit:'2'})}}{% if  date.year is not null %}/{{ date.year }}{% endif %}</strong> - {{ date.title }}
+                </label>
+                    </div>
+                {% endfor %}
+
+
+            </div>
+        </div>
+
+
+    </div>
+    <button class="btn btn-info text-white float-start mt-3">Continuar</button>
+</form>
+
+    <a href="javascript:history.back()" class="btn btn-secondary float-start ms-3 mt-3 text-white">Voltar</a>
+
+    <script>
+        document.querySelectorAll('#form_commemorativeDates input[type="checkbox"]').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                var parentDiv = this.closest('div.p-2');
+                if (this.checked) {
+                    parentDiv.classList.add('highlight');
+                } else {
+                    parentDiv.classList.remove('highlight');
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

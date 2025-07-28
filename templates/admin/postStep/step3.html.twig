@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Imagem do POST</h1>
+
+    <form method="post" enctype="multipart/form-data" >
+        {{ form_start(form) }}
+
+
+        <div class="mb-3 col-12 d-none">
+            <label for="{{ form.campaign.vars.id }}" class="form-label">Campanha</label>
+            {{ form_widget(form.campaign, {'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="mb-3 col-12">
+            <label for="{{ form.scheduleDate.vars.id }}" class="form-label">Programado Para</label>
+            {{ form_widget(form.scheduleDate, {'attr':{'class':'form-control'}}) }}
+        </div>
+
+        <div class="mb-3 col-12">
+            <label for="{{ form.imageFile.vars.id }}" class="form-label">Imagem</label>
+            {{ form_widget(form.imageFile, {'attr':{'class':'form-control'}}) }}
+        </div>
+
+
+        <button class="btn btn-success text-white" type="submit">Continuar</button>
+        {{ form_end(form) }}
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var selectElement = document.getElementById('post_step3_campaign');
+            if (selectElement) {
+                selectElement.value = '{{ campaign.id }}';
+            }
+        });
+    </script>
+
+{% endblock %}

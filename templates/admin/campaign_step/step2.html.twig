@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Novo Campaign{% endblock %}
+
+{% block body %}
+    <h1>Passo 02 - Dados da Campanha</h1>
+    <p>Para o cliente {{ client.name }}</p>
+    {{ include('admin/campaign_step/_form.html.twig') }}
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Informe os textos</h1>
+    <form method="post" action="{{ path('post_step_new', {step: 5, post_id: post.id}) }}">
+        <div class="row">
+
+        {% for field in fields %}
+        <div class="mb-3 col-12">
+            <label for="campaign_name" class="form-label">{{ field.title }}</label>
+            <input type="text" id="campaign_name" name="fields[{{ field.id }}]" maxlength="255" class="form-control">
+        </div>
+        {% endfor %}
+
+        </div>
+
+        <input type="hidden" id="submited" name="submited" value="true">
+
+        <button class="btn btn-success text-white" type="submit">Continuar</button>
+
+    </form>
+{% endblock %}

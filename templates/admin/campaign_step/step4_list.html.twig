@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+        <style>
+            .calendar {
+                display: inline-block;
+                margin: 10px;
+                border: 1px solid #737373;
+                padding: 10px;
+            }
+            .calendar th, .calendar td {
+                width: 40px;
+                height: 40px;
+                text-align: center;
+                vertical-align: middle;
+                border: 1px solid #c8c8c8;
+            }
+            .calendar .header2 {
+                background-color: #f0f0f0;
+            }
+            .calendar .highlight {
+                background-color: #72d152;
+                border: solid green 1px;
+            }
+        </style>
+        <h1>Passo 4 - Confirmar</h1>
+
+{#        {% for date in postDates %}#}
+{#            <div class="row">#}
+{#                <div class="mb-3 col-4">#}
+{#                    {{ date|date('d/m/Y') }} - {{ date|dia_da_semana }}#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+
+
+        <div class="row">
+
+        {% set daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'] %}
+
+        {% for year in 2024..2024 %}
+
+            {% for month in 1..12 %}
+                {% set firstDayOfMonth = date(year ~ '-' ~ month ~ '-01') %}
+                {% set daysInMonth = firstDayOfMonth|date('t') %}
+                {% set firstWeekday = firstDayOfMonth|date('w') %}
+                {% set hasPostsInMonth = false %}
+
+                {% for postDate in postDates %}
+                    {% if postDate|date('Y-m') == firstDayOfMonth|date('Y-m') %}
+                        {% set hasPostsInMonth = true %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if hasPostsInMonth %}
+                    <div class="mb-3 col">
+                    <div class="calendar">
+                        <table>
+                            <tr>
+                                <td colspan="7">{{ firstDayOfMonth|date('F Y') }}</td>
+                            </tr>
+                            <tr>
+                                {% for day in daysOfWeek %}
+                                    <td class="header2">{{ day }}</td>
+                                {% endfor %}
+                            </tr>
+                            <tr>
+                                {% if firstWeekday > 0 %}
+                                    {% for emptyCell in 0..(firstWeekday - 1) %}
+                                        <td></td>
+                                    {% endfor %}
+                                {% endif %}
+                                {% for day in 1..daysInMonth %}
+                                {% set currentDate = year ~ '-' ~ '%02d'|format(month) ~ '-' ~ '%02d'|format(day) %}
+                                {% set isHighlighted = false %}
+                                {% for postDate in postDates %}
+                                    {% if currentDate == postDate|date('Y-m-d') %}
+                                        {% set isHighlighted = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                <td class="{{ isHighlighted ? 'highlight' : '' }}">
+                                    {{ day }}
+                                </td>
+                                {% if (day + firstWeekday) % 7 == 0 %}
+                            </tr><tr>
+                                {% endif %}
+                                {% endfor %}
+                                {% set remainingCells = (firstWeekday + daysInMonth) % 7 %}
+                                {% if remainingCells != 0 %}
+                                    {% for emptyCell in remainingCells..6 %}
+                                        <td></td>
+                                    {% endfor %}
+                                {% endif %}
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        {% endfor %}
+
+        </div>
+        <div class="row">
+            <div class="mb-3 col">
+                Serão criados <strong>{{ postDates|length }}</strong>, um post para cada dia marcado.<br>
+                Com início em <strong>{{ campaign.stardDate|date('d/m/y') }}</strong> e término em <strong>{{ campaign.endDate|date('d/m/y') }}</strong>.<br>
+                Sempre às <strong>{{ campaign.postingTime|date('H\\hi') }}</strong>
+            </div>
+        </div>
+        <a href="{{ path('app_admin_campaign_step4',{'campaignId':campaign.id}) }}" class="btn btn-info text-white float-start mt-3 me-2">Voltar</a>
+
+        <!-- Formulário oculto para envio de dados -->
+        <form id="postDatesForm" action="{{ path('app_admin_campaign_step5_create', {'campaignId': campaign.id}) }}" method="post" style="display:none;">
+            <input type="hidden" name="postDates" id="postDatesInput">
+        </form>
+
+        <!-- Botão para submeter o formulário -->
+        <button class="btn btn-success text-white float-start mt-3" onclick="submitPostDatesForm()">Confirmar</button>
+
+        <script>
+            function submitPostDatesForm() {
+                // Obtém as datas de postDates do Twig e converte para uma string JSON
+                const postDates = {{ postDates|json_encode|raw }};
+                document.getElementById('postDatesInput').value = JSON.stringify(postDates);
+                // Submete o formulário
+                document.getElementById('postDatesForm').submit();
+            }
+        </script>
+
+
+
+{% endblock %}

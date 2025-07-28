@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Passo 01 - Escolha o cliente</h1>
+    <form method="get" action="{{ path('app_admin_campaign_step2') }}">
+        {% for client in clients %}
+            <input type="radio" id="client_{{ client.id }}" name="client_id" value="{{ client.id }}">
+            <label for="client_{{ client.id }}">
+                {% if client.logoFile is not empty %}
+                    <img src="{{ vich_uploader_asset(client,'logoFile') }}" width="75">
+                {% endif %}
+                      {{ client.name }}
+            </label><br>
+            <hr>
+        {% endfor %}
+        <button class="btn btn-success text-white" type="submit">Continuar</button>
+    </form>
+{% endblock %}

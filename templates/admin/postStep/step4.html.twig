@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Choose Media</h1>
+    <form method="post" action="{{ path('post_step_new', {step: 5}) }}">
+        {{ form_start(form) }}
+        {{ form_row(form.media) }}
+        <button type="submit">Continuar</button>
+        {{ form_end(form) }}
+    </form>
+{% endblock %}
