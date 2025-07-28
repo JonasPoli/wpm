@@ -28,9 +28,9 @@ Este prompt deve ser copiado e colado no Chat GPT :<br>
                                 <div class="mb-3">
                                     <label class="form-label" for="textAreaToGPT">Prompt para o GPT</label>
                                     <textarea class="form-control" id="textAreaToGPT" rows="3">
-                                        Estamos criando uma campanha para o Facebook para o cliente wab.<br>
+                                        Estamos criando uma campanha para o Facebook do cliente wab.<br>
                                         <br>
-                                        Analise o histórico de postagens anteriores para criar novas postagens seguindo o mesmo estilo:<br>
+                                        Analise o histórico a seguir e mantenha o mesmo estilo nas novas postagens:<br>
                                         {% if history|length > 0 %}
                                             {% for item in history %}
                                                 {% if item.message is defined %}
@@ -43,38 +43,34 @@ Este prompt deve ser copiado e colado no Chat GPT :<br>
                                             {% endfor %}
                                         {% endif %}
                                         <br><br>
-                                        Os objetivos desta campanha são a divulgação dos serviços da empresa.<br>
-                                        Deverá ser criada as informações para as postagens nas datas:<br>
+                                        Objetivo: divulgar os serviços da empresa.<br>
+                                        Crie as informações das postagens para as datas abaixo:<br>
                                           {% for item in campaign.posts %}
                                               {% if item.scheduleDate is not empty %}
                                                 {% if item.postTexts[0].content == item.postTexts[0].CampaingStructure.title %}
-{#                                                    Nunca foi alterado#}
                                                  ID da postagem:{{ item.id }} - {{ item.scheduleDate|date('d/m/Y') }}<br>
                                                 {% endif %}
                                               {% endif %}
                                           {% endfor %}
                                         <br>
-                                        O conteúdo das postagens deve levar em consideração que ocliente também gostaria que fosse levado em conta as datas comemorativas de:<br>
+                                        Considere também estas datas comemorativas:<br>
                                         {% for item in allPosts %}
-                                            No dia {{ item.day }} do mês {{ item.month }} comemora-se o {{ item.title }}, {{ item.description }}  <br>
+                                            No dia {{ item.day }} do mês {{ item.month }} comemora-se o {{ item.title }}, {{ item.description }}<br>
                                         {% endfor %}
 
                                         <br><br>
-                                        Com base nesteas informações,
-                                        Crie um arquivo CSV, com os textos entre aspas e os campos separados por vírgulas, contendo as colunas.<br>
-{#                                        1 - URL da Imagem<br>#}
+                                        Com base nas informações acima, gere APENAS o CSV com os campos entre aspas e separados por vírgula nas seguintes colunas:<br>
                                         1 - ID da postagem<br>
                                         2 - Dia<br>
                                         3 - Mês<br>
                                         4 - Título da postagem<br>
-                                        5 - Texto a ser vinculado no Facebook com, aproximadamente, 650 caracteres associando o tema da postagem ao cliente<br>
+                                        5 - Texto para o Facebook (aprox. 650 caracteres associando o tema ao cliente)<br>
                                         {% for item in campaign.campaignStructures %}
-                                            {{ loop.index + 6 }} - {{ item.title }} (para a arte que será postada)<br>
+                                            {{ loop.index + 6 }} - {{ item.title }} (texto da arte a ser postada)<br>
                                         {% endfor %}
 
-                                        <br><br>
-{#                                        A URL deve ser a URL existente de uma imagem que poderá ser utilizada na postagem, porém  imagens de domínio público de sites como https://www.pexels.com/public-domain-images/, https://pixabay.com/, https://commons.wikimedia.org/wiki/Main_Page, https://www.flickr.com/commons, https://morguefile.com/, https://www.publicdomainarchive.com, etc<br><br>#}
-                                        Não precisa apresentar o texto, nem o código de importação em python, apenas disponibilizar o CSV
+                                        <br>
+                                        Não inclua explicações extras nem código. Retorne somente o CSV
                                     </textarea>
                                 </div>
                             </div>
