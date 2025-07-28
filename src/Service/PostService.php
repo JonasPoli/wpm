@@ -104,7 +104,10 @@ class PostService
 
 
         if ($data['success'] == false){
-            $message = 'Erro ao enviar para o Facebook. '.$data['error_message'].' '.$data['error']['error_user_title'].' '.$data['error']['error_user_msg'];
+            $message = 'Erro ao enviar para o Facebook. ';
+            $message .= $data['error_message'] ?? '';
+            $message .= isset($data['error_user_title']) ? ' '.$data['error_user_title'] : '';
+            $message .= isset($data['error_user_msg']) ? ' '.$data['error_user_msg'] : '';
             //$this->container->get('request_stack')->getSession()->getFlashBag()->add('error', $message);
             $session = new Session();
             // retrieve the flash messages bag
