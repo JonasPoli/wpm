@@ -155,6 +155,12 @@ class BannerItemService
             case IMAGETYPE_PNG:
                 $image = imagecreatefrompng($imagePath);
                 break;
+            case IMAGETYPE_WEBP:
+                if (!function_exists('imagecreatefromwebp')) {
+                    throw new \Exception('WebP support is not enabled in GD library');
+                }
+                $image = imagecreatefromwebp($imagePath);
+                break;
             default:
                 throw new \Exception("Unsupported image type: $imagePath");
         }
