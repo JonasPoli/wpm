@@ -175,8 +175,8 @@ class CampaignController extends AbstractController
         $history = $postService->getHistoryPost($campaign->getClient());
 
         $dataHistory = [];
-        if ($history['success'] == true){
-            $dataHistory = $history['data'];
+        if (is_array($history) && ($history['success'] ?? false) === true) {
+            $dataHistory = $history['data'] ?? [];
         }
 
         return $this->render('admin/campaign/prompt.html.twig', [
