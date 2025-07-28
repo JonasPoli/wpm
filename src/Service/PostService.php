@@ -54,6 +54,9 @@ class PostService
 
         $token = $this->security->getUser()->getFacebookAccessToken();
         if ($token == null || $token == ""){
+            $session = new Session();
+            $flashes = $session->getFlashBag();
+            $flashes->add('error', 'Token do Facebook não definido');
             return false;
         }
 
@@ -136,7 +139,9 @@ class PostService
 
         $token = $this->security->getUser()->getFacebookAccessToken();
         if ($token == null || $token == ""){
-            echo 'sem getFacebookAccessToken';
+            $session = new Session();
+            $flashes = $session->getFlashBag();
+            $flashes->add('error', 'Token do Facebook não definido');
             return false;
         }
 
@@ -188,6 +193,8 @@ class PostService
 
         $token = $this->security->getUser()->getFacebookAccessToken();
         if ($token == null || $token == ""){
+            $session = new Session();
+            $session->getFlashBag()->add('error', 'Token do Facebook não definido');
             return false;
         }
 
@@ -206,6 +213,8 @@ class PostService
 
         $token = $this->security->getUser()->getFacebookAccessToken();
         if ($token == null || $token == ""){
+            $session = new Session();
+            $session->getFlashBag()->add('error', 'Token do Facebook não definido');
             return false;
         }
 
